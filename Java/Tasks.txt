@@ -1,0 +1,9 @@
+Tasks:
+- Need to understand a few of the functions eg run()
+
+Notes:
+I DO NOT understand anything. I feel so damn lost holy moly :^)
+  - Confused on how to run the makefile and I do even know what that thing is... whatever.. I'm just going to follow along and hope for the best 
+
+
+  
