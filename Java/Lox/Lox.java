@@ -27,27 +27,28 @@ public class Lox {
   }
 
   private static void runFile(String path) throws IOException {
-    // Read contents of file given and returns a byte array
+    // Contents of file read into a byte array
     byte[] bytes = Files.readAllBytes(Paths.get(path));
-    // 
+    // Byte array ->  decode to a string (encode was string -> byte)
     run(new String(bytes, Charset.defaultCharset()));
   }
 
   private static void runPrompt() throws IOException {
+    // reads byte and decodes to characters
     InputStreamReader input = new InputStreamReader(System.in);
+    // Bufferings the chars
     BufferedReader reader = new BufferedReader(input);
+
+    // Unless terminated, this is a n infinite loop
     for (;;) {
-      System.out.println("> ");
+      System.out.print("> ");
       String line = reader.readLine();
-      if (line == null)
-        break;
+      if (line == null) break;
       run(line);
-
     }
-
   }
   
-  // Need to define Tokens...
+  // Need to define Token... will it be a class?
   private static void run(String source) {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
@@ -57,5 +58,13 @@ public class Lox {
     }
   }
 
+  static void error(int line, String message) {
+    report(line, "", message);
+  }
+
+  private static void report(int line, String where, String message) {
+    System.err.println("[line " + line + "] Error" + where + ": " + message);
+    hadError = true;
+  }
     
 }
