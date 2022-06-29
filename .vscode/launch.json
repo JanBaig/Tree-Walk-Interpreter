@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Lox with file",
+            "request": "launch",
+            "mainClass": "Java.Lox.Lox",
+            "projectName": "CraftingInterpreters_c89ddf7d",
+            "args": "Source.lox"
+        },
+        {
+            "type": "java",
+            "name": "Launch Lox without file",
+            "request": "launch",
+            "mainClass": "Java.Lox.Lox",
+            "projectName": "CraftingInterpreters_c89ddf7d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Practice",
+            "request": "launch",
+            "mainClass": "Practice.Practice",
+            "projectName": "CraftingInterpreters_c89ddf7d"
+        }
+    ]
+}

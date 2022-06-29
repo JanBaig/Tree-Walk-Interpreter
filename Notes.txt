@@ -1,0 +1,5 @@
+Notes:
+- Display error column not just the line
+
+Questions:
+- What does isDigit() deal with chars of numbers? Why not just an actual int value?

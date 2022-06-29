@@ -8,11 +8,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 public class Lox {
+  static boolean hadError = false;
 
-  public static void main(String[] args) throws IOException  {
+  public static void main(String[] args) throws IOException {
     if (args.length > 1) {
       System.out.println("Usage: jlox [script]");
       // Exit code 64 - command used incorrectly/wrong parameters (to main) 
@@ -21,39 +21,46 @@ public class Lox {
       // Run the file for interpreting
       runFile(args[0]);
     } else {
-      // No file given - run interatively evaluating one line at a time of user input
+      // Run interatively evaluating one line at a time of user input
       runPrompt();
     }
   }
 
   private static void runFile(String path) throws IOException {
+
     // Contents of file read into a byte array
     byte[] bytes = Files.readAllBytes(Paths.get(path));
+
     // Byte array ->  decode to a string (encode was string -> byte)
     run(new String(bytes, Charset.defaultCharset()));
+    if (hadError) System.exit(65);
   }
 
   private static void runPrompt() throws IOException {
+
     // reads byte and decodes to characters
     InputStreamReader input = new InputStreamReader(System.in);
+
     // Bufferings the chars
     BufferedReader reader = new BufferedReader(input);
 
-    // Unless terminated, this is a n infinite loop
+    // Unless terminated, this is an infinite loop
     for (;;) {
       System.out.print("> ");
       String line = reader.readLine();
       if (line == null) break;
       run(line);
+      hadError = false;
     }
   }
-  
-  // Need to define Token... will it be a class?
+
   private static void run(String source) {
+    // Our custom scanner
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
 
     for (Token token : tokens) {
+      // Apprently .toString() does not work...
       System.out.println(token);
     }
   }
