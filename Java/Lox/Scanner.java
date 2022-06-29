@@ -211,7 +211,4 @@ class Scanner {
     return isAlpha(c) || isDigit(c);
   }
 
-
-
-  
 }
