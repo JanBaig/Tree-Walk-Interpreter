@@ -1,2 +1,5 @@
-clox
+# Files not included in the repo
 *.class 
+
+# Files used for testing
+./Practice
