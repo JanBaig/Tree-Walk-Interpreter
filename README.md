@@ -14,5 +14,9 @@
 - [ ] Complete Chapter 12 - Classes
 - [ ] Complete Chapter 13 - Inheritance
 
+#### Further Steps
+- [ ] Addition of easier to understand erros - including line and column number 
+
+
 ### Great Learning Resource
 - [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom

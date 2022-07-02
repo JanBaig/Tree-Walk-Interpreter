@@ -200,7 +200,7 @@ class Scanner {
     while (isAlphaNumeric(peek())) advance();
     
     String text = source.substring(start, current);
-    // Check to see if the 'identifier' is actually a keyword/reserved word. Eg 'While', 'var', 'return' 
+    // Check to see if the 'identifier' is actually a keyword/reserved word. Eg keywords: 'While', 'var', 'return' 
     TokenType type = keywords.get(text);
     if (type == null) type = IDENTIFIER;
     addToken(type); 
