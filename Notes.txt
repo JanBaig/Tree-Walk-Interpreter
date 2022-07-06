@@ -1,0 +1,4 @@
+Parser:
+- I don't really understand how the expression grammar works entirely...
+- I don't understand the error recovery modes
+- A bug about the same method names is confusing me atm

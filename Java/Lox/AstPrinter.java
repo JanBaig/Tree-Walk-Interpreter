@@ -45,7 +45,8 @@ class AstPrinter implements Expr.Visitor<String> {
     builder.append("(").append(name);
     for (Expr expr : exprs) {
       builder.append(" ");
-      // Why did we add this?
+      // To call the subclass TYPES and trigger their class accept() method 
+      // Those accept() methods then call type methods in this class
       builder.append(expr.accept(this));
     }
 
@@ -67,13 +68,12 @@ class AstPrinter implements Expr.Visitor<String> {
         new Expr.Literal(45.67))
     );
 
+    // The expression type is BINARY
     String returnString = new AstPrinter().print(expression);
     
     System.out.println(returnString);
     // Expected Result: (* (- 123) (group 45.67))
 
   }
-
-
 
 }

@@ -3,7 +3,7 @@ import java.util.List;
 
 abstract class Expr {
 
-  // The visitor Interface. <R> is a string
+  // The visitor Interface where <R> is a string
   interface Visitor<R> {
     R visitBinaryExpr(Binary expr);
 
@@ -24,6 +24,7 @@ abstract class Expr {
     @Override
     <R> R accept(Visitor<R> visitor) {
       // 'visitor' is the interface 
+      System.out.println("From inside the Expr.Binary class!");
       return visitor.visitBinaryExpr(this);
     }
 
@@ -39,6 +40,7 @@ abstract class Expr {
 
     @Override
     <R> R accept(Visitor<R> visitor) {
+      System.out.println("From inside the Expr.Grouping class!");
       return visitor.visitGroupingExpr(this);
     }
 
@@ -52,6 +54,7 @@ abstract class Expr {
 
     @Override
     <R> R accept(Visitor<R> visitor) {
+      System.out.println("From inside the Expr.Literal class!");
       return visitor.visitLiteralExpr(this);
     }
 
@@ -66,6 +69,7 @@ abstract class Expr {
 
     @Override
     <R> R accept(Visitor<R> visitor) {
+      System.out.println("From inside the Expr.Unary class!");
       return visitor.visitUnaryExpr(this);
     }
 
@@ -74,7 +78,8 @@ abstract class Expr {
   }
 
   // Given some pastry, how do we route it to the correct method on the visitor based on its type? Polymorphism
-  // Expr accept([pass in the specific visitor]) -> subclass's accept() method is invoked -> redirects to interface's specific method
+  // Expr.accept([pass in the specific visitor]) -> subclass's accept() method is invoked -> redirects to interface's specific method
+  // The specific visitor we pass in has expession TYPES that automatically trigger the spcific type class's accept() method
   abstract <R> R accept(Visitor<R> visitor);
 
 }
