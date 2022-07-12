@@ -1,4 +1,4 @@
-# Interpreters
+# Interpreter
 ### Goals
 - [x] Scanner
 - [x] Parser
