@@ -3,6 +3,9 @@ import java.util.List;
 import static Java.Lox.TokenType.*;
 
 class Parser {
+  // What does the ParseError even do? Why is it structured like this?
+  private static class ParseError extends RuntimeException {};
+
   private final List<Token> tokens;
   private int current = 0;
   
@@ -10,9 +13,17 @@ class Parser {
     this.tokens = tokens;
   }
 
+  Expr parse() {
+    try {
+      return expression();
+    } catch (ParseError error){
+      return null;
+    }
+  }
+
   // Translate epxression rules to code
 
-  private Expr expression(){
+  private Expr expression() {
     return equality();
   }
 
@@ -22,7 +33,6 @@ class Parser {
     while(match(BANG_EQUAL, EQUAL_EQUAL)){
       // Remember the token labels are WORDS (not chars) so previous would equal (BANG_EQUAL) | (EQUAL_EQUAL)
       Token operator = previous();
-      // Confused on this... this is recursive no?
       Expr right = comparison();
       expr = new Expr.Binary(expr, operator, right);
     }
@@ -42,7 +52,7 @@ class Parser {
     return expr;
   }
 
-  private Expr term(){
+  private Expr term() {
     Expr expr = factor();
 
     while(match(MINUS, PLUS)){
@@ -76,28 +86,28 @@ class Parser {
     return primary();
   }
 
-  private Expr primary(){
+  private Expr primary() {
     if (match(FALSE)) return new Expr.Literal(false);
     if (match(TRUE)) return new Expr.Literal(true);
     if (match(NIL)) return new Expr.Literal(null);
 
     if (match(NUMBER, STRING)){
+      // We updated current -> so we're using previous() now to access the token
       return new Expr.Literal(previous().literal);
     }
 
-    if (match(LEFT_PAREN)){
+    if (match(LEFT_PAREN)) {
       Expr expr = expression();
       // Check if the right param is found. If not, fire an error message
       consume(RIGHT_PAREN, "Expect ')' after expression.");
       return new Expr.Grouping(expr);
     }
 
-    // Should change this...
-    return null;
+    throw error(peek(), "Expect expression.");
   } 
 
-
   // Helper Methods
+
   private boolean match(TokenType... types){
     for (TokenType type : types){
       if (check(type)){
@@ -137,17 +147,35 @@ class Parser {
     throw error(peek(), message);
   }
 
-  // private ParseError error(Token token, String message){
-  //   Lox.error(token, message);
-  //   return new ParseError();
-  // }
+  private ParseError error(Token token, String message){
+    // Reports an error at a given token
+    Lox.error(token, message);
+    return new ParseError();
+  }
 
-  // static void error(Token token, String message){
-  //   if (token.type == TokenType.EOF){
-  //     report(token.line, " at end", message);
-  //   } else{
-  //     report(token.line, " at '" + token.lexeme + "'", message);
-  //   }
-  // }
+  // It discards tokens until it thinks it has found a statement boundary 
+  // After catching a ParseError, we'll call this and then we will be back in sync 
+  private void synchronize() {
+    advance();
 
+    while(!isAtEnd()){
+      if (previous().type == SEMICOLON) return;
+
+      switch (peek().type) {
+        case CLASS:
+        case FUN:
+        case VAR:
+        case FOR:
+        case IF:
+        case WHILE:
+        case PRINT:
+        case RETURN:
+          return;
+      }
+
+      advance();
+
+    }
+  }
 } 
+

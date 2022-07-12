@@ -6,7 +6,7 @@ class AstPrinter implements Expr.Visitor<String> {
   // Calling the accept method of the subclass and passing in this operation 'AstPrinter'. 
   // By polymorphsm, the parent class (Expr) triggers the accept call to the subclass's accept() method
   // The accept() method called from within the subclass then routes to the correct visitior interface's methods
-  // My understanding so far
+  // My understanding so far...
 
   String print(Expr expr) {
     return expr.accept(this);
@@ -46,7 +46,8 @@ class AstPrinter implements Expr.Visitor<String> {
     for (Expr expr : exprs) {
       builder.append(" ");
       // To call the subclass TYPES and trigger their class accept() method 
-      // Those accept() methods then call type methods in this class
+      // Those accept() methods then call type methods in this AstPrinter class
+      // Takes care of nested expressions!
       builder.append(expr.accept(this));
     }
 

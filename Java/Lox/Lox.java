@@ -21,7 +21,7 @@ public class Lox {
       // Run the file for interpreting
       runFile(args[0]);
     } else {
-      // Run interatively evaluating one line at a time of user input
+      // Run interactively evaluating one line at a time of user input
       runPrompt();
     }
   }
@@ -55,14 +55,21 @@ public class Lox {
   }
 
   private static void run(String source) {
+    
     // Our custom scanner
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
 
-    for (Token token : tokens) {
-      // Apprently .toString() does not work...
-      System.out.println(token);
-    }
+    Parser parser = new Parser(tokens);
+    
+    // Returns an expression
+    Expr expression = parser.parse();
+
+    // Stop if there is a syntax error
+    if (hadError) return;
+
+    System.out.println(new AstPrinter().print(expression));
+
   }
 
   static void error(int line, String message) {
@@ -74,4 +81,13 @@ public class Lox {
     hadError = true;
   }
     
+  static void error(Token token, String message){
+    if (token.type == TokenType.EOF){
+      report(token.line, " at end", message);
+    } else {
+      report(token.line, " at '" + token.lexeme + "'", message);
+    }
+  }
+
+
 }
