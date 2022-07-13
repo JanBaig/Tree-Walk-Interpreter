@@ -1,9 +1,9 @@
-# Interpreters
+# Interpreter
 ### Goals
 - [x] Scanner
 - [x] Parser
 - [x] Print Abstract Syntax Tree (AST)
-- [ ] Add descriptive errors 
+- [ ] Add descriptive errors messages
 
 ```
 > 2 + 56
