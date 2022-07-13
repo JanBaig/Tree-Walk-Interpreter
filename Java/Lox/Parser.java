@@ -3,7 +3,7 @@ import java.util.List;
 import static Java.Lox.TokenType.*;
 
 class Parser {
-  // What does the ParseError even do? Why is it structured like this?
+  // Empty custom exception class
   private static class ParseError extends RuntimeException {};
 
   private final List<Token> tokens;
