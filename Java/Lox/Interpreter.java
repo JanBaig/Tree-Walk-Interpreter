@@ -1,18 +1,42 @@
 package Java.Lox;
 
-class Interpreter implements Expr.Visitor<Object> {
+import java.util.List;
+
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   // The class declares that it's a visitor
   // The return value of the visitor methods is an Object
+  private Environment environment = new Environment();
 
-  void interpret(Expr expression) {
+  void interpret(List<Stmt> statements) {
     try {
-      Object value = evaluate(expression);
-      System.out.println(stringify(value));
+      for (Stmt statement : statements) {
+        execute(statement);
+      }
     } catch (RuntimeError error) {
       Lox.runtimeError(error);
     }
+  } 
+
+  // Veriable Visit Methods
+
+  @Override 
+  public Void visitVarStmt(Stmt.Var stmt) {
+    Object value = null;
+    if (stmt.initializer != null) {
+      value = evaluate(stmt.initializer); 
+    }
+
+    environment.define(stmt.name.lexeme, value);
+    return null;
+  } 
+
+  @Override 
+  public Object visitVariableExpr(Expr.Variable expr) {
+    return environment.get(expr.name);
   }
+
+  // Expression Visit Method
   
   @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
@@ -86,6 +110,22 @@ class Interpreter implements Expr.Visitor<Object> {
 
   } 
 
+  // Expression Statement Visit Method
+  
+  @Override
+  public Void visitExpressionStmt(Stmt.Expression stmt) {
+    evaluate(stmt.expression);
+    return null;
+  } 
+
+  // Print Statement Visit Method
+
+  @Override
+  public Void visitPrintStmt(Stmt.Print stmt) {
+    Object value = evaluate(stmt.expression);
+    System.out.println(stringify(value));
+    return null;
+  }
 
   // Helper Methods
 
@@ -129,11 +169,11 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     return object.toString();
-    
+
   }
 
-
-
-
+  private void execute(Stmt stmt) {
+    stmt.accept(this);
+  }
 
 }

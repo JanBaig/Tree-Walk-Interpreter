@@ -65,13 +65,13 @@ public class Lox {
 
     Parser parser = new Parser(tokens);
     
-    // Returns an expression
-    Expr expression = parser.parse();
+    // (Returns class instances? Like an ast?)
+    List<Stmt> statements = parser.parse();
 
     // Stop if there is a syntax error
     if (hadError) return;
 
-    interpreter.interpret(expression);
+    interpreter.interpret(statements);
 
   }
 

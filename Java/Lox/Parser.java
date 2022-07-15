@@ -1,4 +1,5 @@
 package Java.Lox;
+import java.util.ArrayList;
 import java.util.List;
 import static Java.Lox.TokenType.*;
 
@@ -12,16 +13,45 @@ class Parser {
   Parser(List<Token> tokens){
     this.tokens = tokens;
   }
+  
+  List<Stmt> parse() {
+    List<Stmt> statements = new ArrayList<>();
+    while (!isAtEnd()) {
+      // statements.add(statement());
+      statements.add(declaration());
+    }
 
-  Expr parse() {
+    return statements;
+  } 
+
+  // Variable Declartion Rule
+
+  private Stmt declaration() {
     try {
-      return expression();
-    } catch (ParseError error){
+      if (match(VAR)) return varDeclaration();
+      return statement();
+    } catch(ParseError error) {
+      synchronize();
       return null;
     }
   }
 
-  // Translate epxression rules to code
+  private Stmt varDeclaration() {
+    Token name = consume(IDENTIFIER, "Expect variable name");
+
+    // If the user wants to declare but NOT initialize, 'initializer' is set to null (perfectly fine)
+    // But, if an equal sign is consumed, 'initializer' is initilzed to the user's expression.
+
+    Expr initializer = null;
+    if (match(EQUAL)) {
+      // Recall that match() returns previous, but INCREMENTS the current. So the next token is used.
+      initializer = expression();
+    }
+    consume(SEMICOLON, "Expect ')' after variable declaration.");
+    return new Stmt.Var(name, initializer);
+  }
+
+  // Implemneting Epxression Rules
 
   private Expr expression() {
     return equality();
@@ -91,9 +121,13 @@ class Parser {
     if (match(TRUE)) return new Expr.Literal(true);
     if (match(NIL)) return new Expr.Literal(null);
 
-    if (match(NUMBER, STRING)){
+    if (match(NUMBER, STRING)) {
       // We updated current -> so we're using previous() now to access the token
       return new Expr.Literal(previous().literal);
+    }
+
+    if (match(IDENTIFIER)) {
+      return new Expr.Variable(previous());
     }
 
     if (match(LEFT_PAREN)) {
@@ -106,7 +140,28 @@ class Parser {
     throw error(peek(), "Expect expression.");
   } 
 
-  // Helper Methods
+  // Implementing Statement Rules
+
+  private Stmt statement() {
+    if (match(PRINT)) return printStatement();
+
+    return expressionStatement();
+  }
+  
+  private Stmt printStatement() {
+    Expr value = expression();
+    consume(SEMICOLON, "Expect ';' after value.");
+    // Emiting the syntax tree
+    return new Stmt.Print(value);
+  }
+
+  private Stmt expressionStatement() {
+    Expr expr = expression();
+    consume(SEMICOLON, "Expect ';' after expression.");
+    return new Stmt.Expression(expr); 
+  }
+
+  // Helper Methods 
 
   private boolean match(TokenType... types){
     for (TokenType type : types){
@@ -153,9 +208,10 @@ class Parser {
     return new ParseError();
   }
 
-  // It discards tokens until it thinks it has found a statement boundary 
-  // After catching a ParseError, we'll call this and then we will be back in sync 
   private void synchronize() {
+    // It discards tokens until it thinks it has found a statement boundary 
+    // After catching a ParseError, we'll call this and then we will be back in sync 
+
     advance();
 
     while(!isAtEnd()){
@@ -177,5 +233,7 @@ class Parser {
 
     }
   }
+
+
 } 
 
