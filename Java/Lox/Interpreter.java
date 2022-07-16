@@ -18,7 +18,22 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
   } 
 
-  // Veriable Visit Methods
+  // Blocks 
+
+  @Override
+  public Void visitBlockStmt(Stmt.Block stmt) {
+    executeBlock(stmt.statements, new Environment(environment));
+    return null;
+  }
+
+  // Veriable/Assignment Visit Methods
+
+  @Override
+  public Object visitAssignExpr(Expr.Assign expr) {
+    Object value = evaluate(expr.value);
+    environment.assign(expr.name, value);
+    return value;
+  }
 
   @Override 
   public Void visitVarStmt(Stmt.Var stmt) {
@@ -36,7 +51,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return environment.get(expr.name);
   }
 
-  // Expression Visit Method
+  // Expression/Statement Visit Methods
   
   @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
@@ -110,15 +125,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   } 
 
-  // Expression Statement Visit Method
-  
   @Override
   public Void visitExpressionStmt(Stmt.Expression stmt) {
     evaluate(stmt.expression);
     return null;
   } 
-
-  // Print Statement Visit Method
 
   @Override
   public Void visitPrintStmt(Stmt.Print stmt) {
@@ -175,5 +186,25 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   private void execute(Stmt stmt) {
     stmt.accept(this);
   }
+
+  void executeBlock(List<Stmt> statements, Environment environment) {
+    Environment previous = this.environment;
+
+    try {
+      // The global env is set to the NEW env made for the block
+      this.environment = environment;
+      
+      for (Stmt statement : statements) {
+        execute(statement);
+      }
+    } finally {
+      // Since we're done with the block statements, we set the env 
+      // back to the global one
+      this.environment = previous;
+    }
+
+
+  }
+
 
 }
