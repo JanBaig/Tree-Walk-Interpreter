@@ -1,8 +1,8 @@
 # Interpreter
-### Goals
+### Goals - *A work in progress*
 - [x] Scanner
-- [x] Parser
 - [x] Print Abstract Syntax Tree (AST)
+- [ ] Parser
 - [ ] Add descriptive errors messages
 
 ```
