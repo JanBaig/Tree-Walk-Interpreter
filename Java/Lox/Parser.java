@@ -1,6 +1,7 @@
 package Java.Lox;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import static Java.Lox.TokenType.*;
 
 class Parser {
@@ -36,7 +37,7 @@ class Parser {
   }
 
   private Stmt varDeclaration() {
-    Token name = consume(IDENTIFIER, "Expect variable name");
+    Token name = consume(IDENTIFIER, "Expect variable name.");
 
     // If the user wants to declare but NOT initialize, 'initializer' is set to null (perfectly fine)
     // But, if an equal sign is consumed, 'initializer' is initilzed to the user's expression.
@@ -53,12 +54,11 @@ class Parser {
   // Implemneting Epxression Rules
 
   private Expr expression() {
-    // return equality();
     return assignment();
   }
 
   private Expr assignment() {
-    Expr expr = equality();
+    Expr expr = or();
     
     if (match(EQUAL)) {
       Token equals = previous();
@@ -72,6 +72,30 @@ class Parser {
       error(equals, "Invalid assignmnent target.");
     }
 
+    return expr;
+  }
+
+ private Expr or() {
+    Expr expr = and();
+
+    while (match(OR)) {
+      Token operator = previous();
+      Expr right = and();
+      expr = new Expr.Logical(expr, operator, right);
+    }
+
+    return expr;
+  }
+
+  private Expr and() {
+    Expr expr = equality();
+
+    while (match(AND)) {
+      Token operator = previous();
+      Expr right = equality();
+      expr = new Expr.Logical(expr, operator, right);
+    } 
+    
     return expr;
   }
 
@@ -139,8 +163,8 @@ class Parser {
     if (match(TRUE)) return new Expr.Literal(true);
     if (match(NIL)) return new Expr.Literal(null);
 
+    // We updated current from match() -> so we're using previous() now to access the token
     if (match(NUMBER, STRING)) {
-      // We updated current -> so we're using previous() now to access the token
       return new Expr.Literal(previous().literal);
     }
 
@@ -161,7 +185,10 @@ class Parser {
   // Implementing Statement Rules
 
   private Stmt statement() {
+    if (match(FOR)) return forStatement();
+    if (match(IF)) return ifStatement();
     if (match(PRINT)) return printStatement();
+    if (match(WHILE)) return whileStatement();
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
     return expressionStatement();
@@ -178,6 +205,89 @@ class Parser {
     Expr expr = expression();
     consume(SEMICOLON, "Expect ';' after expression.");
     return new Stmt.Expression(expr); 
+  }
+
+  private List<Stmt> block() {
+    List<Stmt> statements = new ArrayList<>(); 
+
+    while (!check(RIGHT_BRACE) && !isAtEnd()) {
+      statements.add(declaration());
+    }
+
+    consume(RIGHT_BRACE, "Expect '}' after block.");
+    return statements;
+  }
+
+  private Stmt ifStatement() {
+    consume(LEFT_PAREN, "Expect '(' after 'if'.");
+    Expr condition = expression();
+    consume(RIGHT_PAREN, "Expect ')' after if condition.");
+
+    // Statement() will take care of the 'Block' brackets
+    Stmt thenBranch = statement();
+    Stmt elseBranch = null;
+    if (match(ELSE)) {
+      elseBranch = statement();
+    }
+
+    return new Stmt.If(condition, thenBranch, elseBranch);
+  }
+
+  private Stmt whileStatement() {
+    consume(LEFT_PAREN, "Expect '(' after 'while'.");
+    Expr condition = expression();
+    consume(RIGHT_PAREN, "Expect ')' after condition.");
+    
+    // Gets the brackets for the body + evaluates the other body statements
+    Stmt body = statement();
+
+    return new Stmt.While(condition, body);
+  }
+
+  private Stmt forStatement() {
+    consume(LEFT_PAREN, "Expect '(' after 'for'.");
+
+    Stmt initializer;
+    if (match(SEMICOLON)) {
+      initializer = null;
+    } else if (match(VAR)) {
+      initializer = varDeclaration();
+    } else {
+      initializer = expressionStatement();
+    } 
+
+    Expr condition = null;
+    if (!check(SEMICOLON)) {
+      condition = expression();
+    } 
+    consume(SEMICOLON, "Expect ';' after loop condition.");
+
+    Expr increment = null;
+    if (!check(RIGHT_PAREN)) {
+      increment = expression();
+    } 
+    consume(RIGHT_PAREN, "Expect ')' after for clauses.");
+
+    // Inside of a block statement
+    Stmt body  = statement(); 
+
+    if (increment != null) {
+      // Converting an array -> List
+      body = new Stmt.Block(
+        Arrays.asList(
+          body, 
+          new Stmt.Expression(increment)));
+    } 
+
+    if (condition == null) condition = new Expr.Literal(true);
+    body = new Stmt.While(condition, body);
+
+    if (initializer != null) {
+      body = new Stmt.Block(Arrays.asList(initializer, body));
+    }
+
+    return body;
+
   }
 
   // Helper Methods 
@@ -253,16 +363,6 @@ class Parser {
     }
   }
 
-  private List<Stmt> block() {
-    List<Stmt> statements = new ArrayList<>(); 
-
-    while (!check(RIGHT_BRACE) && !isAtEnd()) {
-      statements.add(declaration());
-    }
-
-    consume(RIGHT_BRACE, "Expect '}' after block.");
-    return statements;
-  }
-
+  
 } 
 

@@ -18,15 +18,45 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
   } 
 
-  // Blocks 
+  @Override
+  public Void visitWhileStmt(Stmt.While stmt) {
+    while (isTruthy(evaluate(stmt.condition))) {
+      execute(stmt.body);
+    }
 
+    return null;
+  }
+
+  @Override 
+  public Void visitIfStmt(Stmt.If stmt) {
+    if (isTruthy(evaluate(stmt.condition))) {
+      execute(stmt.thenBranch);
+    } else if (stmt.elseBranch != null) {
+      execute(stmt.elseBranch);
+    } 
+
+    return null;
+  }
+  
+  @Override
+  public Object visitLogicalExpr(Expr.Logical expr) {
+    Object left = evaluate(expr.left);
+
+    if (expr.operator.type == TokenType.OR) {
+      if (isTruthy(left)) return left;
+    } else {
+      // For an AND expression
+      if (!isTruthy(left)) return left;
+    } 
+
+    return evaluate(expr.right);
+  }
+  
   @Override
   public Void visitBlockStmt(Stmt.Block stmt) {
     executeBlock(stmt.statements, new Environment(environment));
     return null;
   }
-
-  // Veriable/Assignment Visit Methods
 
   @Override
   public Object visitAssignExpr(Expr.Assign expr) {
@@ -51,8 +81,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return environment.get(expr.name);
   }
 
-  // Expression/Statement Visit Methods
-  
   @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
     return expr.value;
@@ -145,6 +173,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   } 
 
   private boolean isTruthy(Object object) {
+    // Basically, for non-booleans -> everything that isn't null is TRUE
     if (object == null) return false;
     if (object instanceof Boolean) return (boolean)object;
     return true;

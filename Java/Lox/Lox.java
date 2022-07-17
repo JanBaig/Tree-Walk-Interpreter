@@ -33,7 +33,7 @@ public class Lox {
     // Contents of file read into a byte array
     byte[] bytes = Files.readAllBytes(Paths.get(path));
 
-    // Byte array ->  decode to a string (encode was string -> byte)
+    // Byte array -> decode to a string (encode was string -> byte)
     run(new String(bytes, Charset.defaultCharset()));
     if (hadError) System.exit(65);
     if (hadRuntimeError) System.exit(70);
