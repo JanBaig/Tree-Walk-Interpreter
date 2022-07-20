@@ -65,7 +65,7 @@ public class Lox {
 
     Parser parser = new Parser(tokens);
     
-    // (Returns class instances? Like an ast?)
+    // (Returns syntax tree nodes)
     List<Stmt> statements = parser.parse();
 
     // Stop if there is a syntax error

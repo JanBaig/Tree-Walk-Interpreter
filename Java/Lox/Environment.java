@@ -16,6 +16,7 @@ class Environment {
   }
   
   void define(String name, Object value) {
+    // The value can also be a function
     values.put(name, value);
   }
 
