@@ -2,18 +2,18 @@
 ### Goals - *A work in progress*
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
-- [ ] Parser
+- [ ] Parser (Almost done)
 - [ ] Add descriptive errors messages
 
-```
-> 2 + 56
-(+ 2.0 56.0)
-> 2 +
-[line 1] Error at end: Expect expression.
-> (3 * 4) * 10
-(* (group (* 3.0 4.0)) 10.0)
-```
-*Correctly prints the Abstract Syntax Tree (AST) and handles errors*
+Evaluates:
+- Expressions
+- Arithmetic
+- Branching 
+- Looping, 
+- Variables, 
+- Functions and Function calls 
+- Parameter binding 
+- Returns
 
 ### Challenges
 - Understanding the workings of the parser
