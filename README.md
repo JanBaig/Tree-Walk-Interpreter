@@ -13,7 +13,7 @@
 - Variables 
 - Functions and Function calls 
 - Parameter binding 
-- Returns
+- Function return statements
 
 ### Great Learning Resources
 - [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom
