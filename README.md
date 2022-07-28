@@ -1,24 +1,19 @@
 # Interpreter
-### Goals - *A work in progress*
+### Goals
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
 - [ ] Parser (Almost done)
 - [ ] Add descriptive errors messages
 
-Evaluates:
+### Evaluates (so far):
 - Expressions
 - Arithmetic
 - Branching 
-- Looping, 
-- Variables, 
+- Looping 
+- Variables 
 - Functions and Function calls 
 - Parameter binding 
-- Returns
-
-### Challenges
-- Understanding the workings of the parser
-  - Eg. operator precedence, grasping recursive decent parsing etc 
-- Understanding and implementing the visitor pattern
+- Function return statements
 
 ### Great Learning Resources
 - [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom
