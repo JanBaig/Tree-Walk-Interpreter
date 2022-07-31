@@ -11,6 +11,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   // This env changes as we enter/exit local scopes
   private Environment environment = globals; 
 
+  // Constructor Method
   Interpreter() {
 
     globals.define("clock", new LoxCallable() {
@@ -58,6 +59,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   @Override 
   public Object visitCallExpr(Expr.Call expr) {
+    // Expecting an identifier
     Object callee = evaluate(expr.callee);
 
     List<Object> arguments = new ArrayList<>();
@@ -65,11 +67,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       arguments.add(evaluate(argument));
     }
 
-    // ?
+    // Callee is an instance of LoxFunction (Therefore also instance of the interface that LoxFunction implements)
     if (!(callee instanceof LoxCallable)) {
       throw new RuntimeError(expr.paren, "Can only call functions and classes.");
     } 
 
+    // The actual declared function 
     LoxCallable function = (LoxCallable)callee;
 
     // Checking if the argument list len matches the callable's arity

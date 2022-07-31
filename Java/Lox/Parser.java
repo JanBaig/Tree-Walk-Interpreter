@@ -55,7 +55,7 @@ class Parser {
   private Stmt.Function function(String kind) {
     // The user is DEFINING a function here
 
-    Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+    Token name = consume(IDENTIFIER, "Expect " + kind + " name."); 
 
     consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
     List<Token> parameters = new ArrayList<>();
