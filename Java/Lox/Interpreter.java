@@ -1,7 +1,9 @@
 package Java.Lox;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   // The class declares that it's a visitor
@@ -10,6 +12,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   final Environment globals = new Environment();
   // This env changes as we enter/exit local scopes
   private Environment environment = globals; 
+  private final Map<Expr, Integer> locals = new HashMap<>();
 
   // Constructor Method
   Interpreter() {
@@ -144,7 +147,8 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   @Override 
   public Object visitVariableExpr(Expr.Variable expr) {
-    return environment.get(expr.name);
+    // return environment.get(expr.name);
+    return lookUpVariable(expr.name, expr);
   }
 
   @Override
@@ -298,6 +302,32 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       this.environment = previous;
     }
 
+  }
+
+  void resolve(Expr expr, int depth) {
+    locals.put(expr, depth);
+  }
+
+  private Object lookUpvariable(Token name, Expr expr) {
+    Integer distance = locals.get(expr);
+    if (distance != null) {
+      return environment.getAt(distance, name.lexeme);
+    } else {
+      return globals.get(name);
+    }
+  } 
+
+  Object getAt(int distance, String name) {
+    return ancestor(distance).values.get(name);
+  } 
+
+  Environment ancestor(int distance) {
+    Environment environment = this;
+    for (int i=0; i<distance; i++) {
+      environment = environment.enclosing;
+    }
+
+    return environment;
   }
 
 
