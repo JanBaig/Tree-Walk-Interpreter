@@ -59,7 +59,7 @@ public class Lox {
 
   private static void run(String source) {
     
-    // Our custom scanner
+    // Custom scanner
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
 
@@ -68,9 +68,16 @@ public class Lox {
     // Returns syntax tree nodes
     List<Stmt> statements = parser.parse();
 
-    // Stop if there is a syntax error
-    if (hadError) return;
+    // If there was a parse error
+    if (hadError) return; 
 
+    // Semantic Analysis
+    Resolver resolver = new Resolver(interpreter);
+    resolver.resolve(statements); 
+
+    // Stop if there was a resolution error
+    if (hadError) return;
+    
     interpreter.interpret(statements);
 
   }
