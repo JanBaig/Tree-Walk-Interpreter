@@ -13,6 +13,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   // This env changes as we enter/exit local scopes
   private Environment environment = globals; 
   private final Map<Expr, Integer> locals = new HashMap<>();
+  
 
   // Constructor Method
   Interpreter() {
@@ -43,6 +44,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       Lox.runtimeError(error);
     }
   }  
+
+  @Override 
+  public Object visitThisExpr(Expr.This expr) {
+    return lookUpVariable(expr.keyword, expr);
+  }
 
   @Override 
   public Object visitSetExpr(Expr.Set expr) {
