@@ -1,17 +1,18 @@
 # Interpreter
-### Goals
+#### Goals
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
 - [x] Parser
 - [ ] Support more features
 
-### Evaluates:
+#### Evaluates:
 - Expressions & Arithmetic
 - Branching & Looping 
 - Variables, Functions & Function calls 
 - Parameter binding & Function return statements 
-
-### Example Program
+- Classes, Instance variables, & Methods
+  
+#### Example Program
 ```C
 class Cake {
   taste() {
@@ -24,9 +25,8 @@ var cake = Cake();
 cake.flavor = "German chocolate";
 cake.taste(); // Prints "The German chocolate cake is delicious!".
 ```
-<sub>This is a subscript text</sub>
 
-### Great Learning Resources
+#### Great Learning Resources
 - [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom
 - [Building Recursive Descent Parsers](https://www.booleanworld.com/building-recursive-descent-parsers-definitive-guide/#How_does_parsing_work) by Supriyo Biswas
 
