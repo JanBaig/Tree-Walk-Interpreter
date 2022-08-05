@@ -1,4 +1,4 @@
-package Java.Lox;
+package JLOX.Lox;
 
 import java.util.List;
 
@@ -171,5 +171,6 @@ abstract class Expr {
     final Token name;
   }
 
-  abstract <R> R accept(Visitor<R> visitor);
+  abstract <R> R accept(Visitor<R> visitor); 
+
 }

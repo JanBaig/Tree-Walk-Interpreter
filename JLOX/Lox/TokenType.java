@@ -1,4 +1,4 @@
-package Java.Lox;
+package JLOX.Lox;
 
 enum TokenType {
 

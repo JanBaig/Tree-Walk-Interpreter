@@ -1,4 +1,4 @@
-package Java.Lox;
+package JLOX.Lox;
 
 // Operation class that implements the visitor interface
 class AstPrinter implements Expr.Visitor<String> {

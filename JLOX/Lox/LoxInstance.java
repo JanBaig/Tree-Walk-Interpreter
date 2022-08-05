@@ -1,4 +1,4 @@
-package Java.Lox; 
+package JLOX.Lox; 
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,7 @@ class LoxInstance {
             return fields.get(name.lexeme);
         } 
 
+        // If it's not a field
         LoxFunction method = klass.findMethod(name.lexeme);
         if (method != null) return method.bind(this);
 

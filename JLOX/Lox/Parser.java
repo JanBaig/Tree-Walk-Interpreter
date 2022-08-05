@@ -1,8 +1,9 @@
-package Java.Lox;
+package JLOX.Lox;
+import static JLOX.Lox.TokenType.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import static Java.Lox.TokenType.*;
 
 class Parser {
   // Empty custom exception class

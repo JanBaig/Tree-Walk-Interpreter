@@ -1,7 +1,7 @@
 
 // This script is a tiny Java command-line app that generates a file named “Expr.java” & "Stmt.java"
 
-package Java.Tool;
+package JLOX.Tool;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;

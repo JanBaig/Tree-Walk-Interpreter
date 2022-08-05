@@ -1,4 +1,4 @@
-package Java.Lox;
+package JLOX.Lox;
 
 class Token {
     // The 'final' keyword in the contex of variables are used for declaring constants
