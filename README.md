@@ -1,4 +1,4 @@
-# Interpreter
+# Tree-Walk Interpreter
 #### Goals
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
