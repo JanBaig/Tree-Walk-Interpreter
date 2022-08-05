@@ -2,18 +2,29 @@
 ### Goals
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
-- [ ] Parser (Almost done)
-- [ ] Add descriptive errors messages
+- [x] Parser
+- [ ] Support more features
 
-### Evaluates (so far):
-- Expressions
-- Arithmetic
-- Branching 
-- Looping 
-- Variables 
-- Functions and Function calls 
-- Parameter binding 
-- Function return statements
+### Evaluates:
+- Expressions & Arithmetic
+- Branching & Looping 
+- Variables, Functions & Function calls 
+- Parameter binding & Function return statements 
+
+### Example Program
+```C
+class Cake {
+  taste() {
+    var adjective = "delicious";
+    print "The " + this.flavor + " cake is " + adjective + "!";
+  }
+}
+
+var cake = Cake();
+cake.flavor = "German chocolate";
+cake.taste(); // Prints "The German chocolate cake is delicious!".
+```
+<sub>This is a subscript text</sub>
 
 ### Great Learning Resources
 - [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom
