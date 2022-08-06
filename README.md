@@ -13,7 +13,7 @@
 - Classes, Instance variables, & Methods
   
 #### Example Program
-```C
+```rust
 class Cake {
   taste() {
     var adjective = "delicious";
