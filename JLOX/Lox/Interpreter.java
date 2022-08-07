@@ -342,9 +342,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   void executeBlock(List<Stmt> statements, Environment environment) {
     Environment previous = this.environment;
+    // Delete this later on
+    Map<Expr, Integer> someting = locals;
 
     try {
-      // The global env is set to the NEW env made for the block
+      // The current env is set to the NEW env made for the block
       this.environment = environment;
       
       for (Stmt statement : statements) {
@@ -370,6 +372,5 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       return globals.get(name);
     }
   } 
-
 
 }

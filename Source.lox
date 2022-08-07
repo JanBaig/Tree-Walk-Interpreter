@@ -1,10 +1,33 @@
-class Cake {
-  taste() {
-    var adjective = "delicious";
-    print "The " + this.flavor + " cake is " + adjective + "!";
-  }
-}
+// for (var b = 0; b < 10; b = b + 1) {
+//   print "Hello";
+// } 
 
-var cake = Cake();
-cake.flavor = "German chocolate";
-cake.taste(); // Prints "The German chocolate cake is delicious!".
+// var b=0;
+// while (b<3) {
+//   print b;
+//   b = b + 1;
+// } 
+
+
+// fun makeCounter() {
+//   var i = 0;
+//   fun count() {
+//     // Is this not getting the enclosing variable?
+//     //i = i + 1;
+//     print i;
+//   }
+
+//   return count;
+// }
+
+// var counter = makeCounter();
+// counter(); // "1".
+// counter(); // "2". 
+
+{  
+  var i = 0;
+  i = i + 1;
+  //print i;
+} 
+
+// Braces are mixing up scoping for 'i=i+1'

@@ -6,9 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Lox",
+            "request": "launch",
+            "mainClass": "JLOX.Lox.Lox",
+            "projectName": "CraftingInterpreters_c89ddf7d"
+        },
+        {
+            "type": "java",
             "name": "Launch AstPrinter",
             "request": "launch",
-            "mainClass": "Java.Lox.AstPrinter",
+            "mainClass": "JLOX.Lox.AstPrinter",
             "projectName": "CraftingInterpreters_c89ddf7d"
         },
         {
@@ -21,7 +28,7 @@
             "type": "java",
             "name": "Launch Lox with file",
             "request": "launch",
-            "mainClass": "Java.Lox.Lox",
+            "mainClass": "JLOX.Lox.Lox",
             "projectName": "CraftingInterpreters_c89ddf7d",
             "args": "Source.lox"
         },
@@ -29,7 +36,7 @@
             "type": "java",
             "name": "Launch Lox without file",
             "request": "launch",
-            "mainClass": "Java.Lox.Lox",
+            "mainClass": "JLOX.Lox.Lox",
             "projectName": "CraftingInterpreters_c89ddf7d"
         },
         {
