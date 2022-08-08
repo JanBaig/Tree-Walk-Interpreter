@@ -178,7 +178,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     Object value = evaluate(expr.value);
     //environment.assign(expr.name, value);
 
-    Integer distance = locals.get(expr.name);
+    Integer distance = locals.get(expr);
     if (distance != null) {
       environment.assignAt(distance, expr.name, value);
     } else {
@@ -343,7 +343,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   void executeBlock(List<Stmt> statements, Environment environment) {
     Environment previous = this.environment;
     // Delete this later on
-    Map<Expr, Integer> someting = locals;
+    Map<Expr, Integer> NEWLOCALS = locals;
 
     try {
       // The current env is set to the NEW env made for the block

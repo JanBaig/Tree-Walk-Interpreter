@@ -248,5 +248,4 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         currentFunction = enclosingFunction;
     }
 
-
 }
