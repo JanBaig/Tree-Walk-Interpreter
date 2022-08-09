@@ -14,7 +14,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   private Environment environment = globals; 
   private final Map<Expr, Integer> locals = new HashMap<>();
   
-
   // Constructor Method
   Interpreter() {
 
@@ -80,7 +79,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     Map<String, LoxFunction> methods = new HashMap<>();
     for (Stmt.Function method : stmt.methods) {
-      LoxFunction function = new LoxFunction(method, environment);
+      LoxFunction function = new LoxFunction(method, environment, method.name.lexeme.equals("init"));
       methods.put(method.name.lexeme, function);
     }
 
@@ -101,7 +100,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   @Override 
   public Void visitFunctionStmt(Stmt.Function stmt) {
     // Stmt.Function is a syntax node (Compile time) and LoxFunction is the runtime rep of that function
-    LoxFunction function =  new LoxFunction(stmt, environment);
+    LoxFunction function =  new LoxFunction(stmt, environment, false);
     environment.define(stmt.name.lexeme, function);
     return null;
   }

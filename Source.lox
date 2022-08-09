@@ -9,20 +9,20 @@
 // } 
 
 
-fun makeCounter() {
-  var i = 0;
-  fun count() {
-    // Is this not getting the enclosing variable?
-    i = i + 1;
-    print i;
-  }
+// fun makeCounter() {
+//   var i = 0;
+//   fun count() {
+//     // Is this not getting the enclosing variable?
+//     i = i + 1;
+//     print i;
+//   }
 
-  return count;
-}
+//   return count;
+// }
 
-var counter = makeCounter();
-counter(); // "1".
-counter(); // "2". 
+// var counter = makeCounter();
+// counter(); // "1".
+// counter(); // "2". 
 
 // {  
 //   var i = 0;
@@ -31,3 +31,37 @@ counter(); // "2".
 // } 
 
 // Braces are mixing up scoping for 'i=i+1'
+
+// fun fib(n) {
+//   if (n <= 1) return n;
+//   return fib(n - 2) + fib(n - 1);
+// }
+
+// for (var i = 0; i < 20; i = i + 1) {
+//   print fib(i);
+// } 
+
+
+// class Bagel {}
+// var bagel = Bagel();
+// print bagel; // Prints "Bagel instance". 
+
+
+// class Bacon {
+//   eat() {
+//     print "Crunch crunch crunch!";
+//   }
+// }
+
+// Bacon().eat(); // Prints "Crunch crunch crunch!". 
+
+class Cake {
+  taste() {
+    var adjective = "delicious";
+    print "The " + this.flavor + " cake is " + adjective + "!";
+  }
+}
+
+var cake = Cake();
+cake.flavor = "German chocolate";
+cake.taste(); // Prints "The German chocolate cake is delicious!".
