@@ -3,14 +3,14 @@
 - [x] Scanner
 - [x] Print Abstract Syntax Tree (AST)
 - [x] Parser
-- [ ] Support more features
+- [x] Variable Resolution Pass
 
 #### Evaluates:
 - Expressions & Arithmetic
 - Branching & Looping 
 - Variables, Functions & Function calls 
 - Parameter binding & Function return statements 
-- Classes, Instance variables, & Methods
+- Classes, Inheritance, Instance variables, & Methods
   
 #### Example Program
 ```rust
