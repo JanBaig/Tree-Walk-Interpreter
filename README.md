@@ -11,7 +11,11 @@
 - Variables, Functions & Function calls 
 - Parameter binding & Function return statements 
 - Classes, Inheritance, Instance variables, & Methods
-  
+
+#### Future Features 
+- [ ] Ability to evaluate string interpolation
+- [ ] Add support for the C-style conditional or “ternary” operator ``?:``.
+
 #### Example Program
 ```rust
 class Cake {
